@@ -29,16 +29,17 @@ function tweetline_block_render( $attributes, $content ) {
     foreach ($timeline as $tweet ) {
         ?>
         <li>
-            <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar">
-            <h3>
+            <div class="author">
+                <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar">
                 <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>"><?php echo $tweet->user->name ?> (@<?php echo $tweet->user->screen_name ?>)</a>
-            </h3>
-            <p>
+            </div>
+            <div class="tweet">
                 <?php tweet_text($tweet) ?>
-            </p>
-            <p>
-            <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>">Vis på Twitter</a> <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>"><?php echo $tweet->created_at ?></a>
-            </p>
+            </div>
+            <div class="links">
+                <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="view">Vis på Twitter</a>
+                <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="date"><?php echo $tweet->created_at ?></a>
+            </div>
         </li>
         <?php
     }

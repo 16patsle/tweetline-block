@@ -17,14 +17,15 @@ function tweetline_block_render( $attributes, $content ) {
     }
     ob_start();
     ?>
-    <div>
-        <h2>
-            Tidslinje for <?php echo $timeline[0]->user->name ?>
-            <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" alt="" style="height: .9em; margin: 0 .25em; margin-bottom: -.1em;">
-        </h2>
-    </div>
+    <div class="tweetline-block-tweetline-block">
+        <div>
+            <h2>
+                Tidslinje for <?php echo $timeline[0]->user->name ?>
+                <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" alt="" class="twttr-logo">
+            </h2>
+        </div>
+        <ul>
     <?php
-    echo '<ul>';
     foreach ($timeline as $tweet ) {
         ?>
         <li>
@@ -41,7 +42,10 @@ function tweetline_block_render( $attributes, $content ) {
         </li>
         <?php
     }
-    echo'</ul>';
+    ?>
+        </ul>
+    </div>
+    <?php
     $string = ob_get_clean();
     return $string;
 }
@@ -64,11 +68,20 @@ function tweetline_block() {
     wp_register_script(
         'tweetline-block',
         plugins_url( 'build/index.js', __FILE__ ),
-        array( 'wp-blocks', 'wp-element', 'wp-components' )
+        array( 'wp-blocks', 'wp-element', 'wp-components' ),
+        filemtime( plugin_dir_path( __FILE__ ) . 'build/index.js' )
+    );
+
+    wp_register_style(
+        'tweetline-block',
+        plugins_url( 'src/style.css', __FILE__ ),
+        array( ),
+        filemtime( plugin_dir_path( __FILE__ ) . 'src/style.css' )
     );
 
     register_block_type( 'tweetline-block/tweetline-block', array(
         'editor_script' => 'tweetline-block',
+        'style' => 'tweetline-block',
         'render_callback' => 'tweetline_block_render'
     ) );
 

@@ -15,10 +15,17 @@ function tweetline_block_render( $attributes, $content ) {
         $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => "multitek_no", "count" => 5, "exclude_replies" => true, "tweet_mode" => "extended"]);
         set_transient( 'tweetline_multitek_no', $timeline, 12 * HOUR_IN_SECONDS );
     }
-
-    $string = '<ul>';
+    ob_start();
+    ?>
+    <div>
+        <h2>
+            Tidslinje for <?php echo $timeline[0]->user->name ?>
+            <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" alt="" style="height: .9em; margin: 0 .25em; margin-bottom: -.1em;">
+        </h2>
+    </div>
+    <?php
+    echo '<ul>';
     foreach ($timeline as $tweet ) {
-        ob_start();
         ?>
         <li>
             <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar">
@@ -33,10 +40,9 @@ function tweetline_block_render( $attributes, $content ) {
             </p>
         </li>
         <?php
-        $tweet_display = ob_get_clean();
-        $string .= $tweet_display;
     }
-    $string .= '</ul>';
+    echo'</ul>';
+    $string = ob_get_clean();
     return $string;
 }
 

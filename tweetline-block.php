@@ -29,7 +29,7 @@ function tweetline_block_render( $attributes, $content ) {
                 <?php tweet_text($tweet) ?>
             </p>
             <p>
-                <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>"><?php echo $tweet->created_at ?></a>
+            <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>">Vis på Twitter</a> <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>"><?php echo $tweet->created_at ?></a>
             </p>
         </li>
         <?php

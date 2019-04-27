@@ -14,7 +14,7 @@
 }
 
 .tweetline-block-tweetline-block li {
-    margin: 10px;
+    margin: 20px 10px;
 }
 
 .tweetline-block-tweetline-block .author {
@@ -23,8 +23,14 @@
     margin: 10px;
 }
 
-.tweetline-block-tweetline-block .author > a {
+.tweetline-block-tweetline-block .author  a {
     margin: 0 10px;
+    font-weight: 700;
+    color: inherit;
+}
+
+.tweetline-block-tweetline-block .author img {
+    height: 36px;
 }
 
 .tweetline-block-tweetline-block .tweet {
@@ -36,4 +42,16 @@
     justify-content: space-between;
     position: relative;
     margin: 10px;
+    font-size: .8em;
+    font-size: 85%;
+    margin-top: .5em;
+    line-height: 1.5;
+}
+
+.tweetline-block-tweetline-block .links a, .tweetline-block-tweetline-block .links a:visited {
+    color: #595959;
+}
+
+.tweetline-block-tweetline-block .links a:hover {
+    color: #1e73be;
 }

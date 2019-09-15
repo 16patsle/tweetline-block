@@ -8,52 +8,56 @@ require 'vendor/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 function tweetline_block_render( $attributes, $content ) {
-    if ( false === ( $timeline = get_transient( 'tweetline_multitek_no' ) ) ) {
+    if ( false === ( $string = get_transient( 'tweetline_multitek_no_html' ) ) ) {
         // It wasn't there, so regenerate the data and save the transient
-        $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
-        $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
-        $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => "multitek_no", "count" => 5, "exclude_replies" => true, "tweet_mode" => "extended"]);
-        set_transient( 'tweetline_multitek_no', $timeline, 12 * HOUR_IN_SECONDS );
-    }
-    ob_start();
-    ?>
-    <div class="tweetline-block-tweetline-block">
-        <div>
-            <h2>
-                Tidslinje for <?php echo $timeline[0]->user->name ?>
-                <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" alt="" class="twttr-logo">
-            </h2>
-        </div>
-        <ul>
-    <?php
-    foreach ($timeline as $tweet ) {
+        if ( false === ( $timeline = get_transient( 'tweetline_multitek_no' ) ) ) {
+            // It wasn't there, so regenerate the data and save the transient
+            $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
+            $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
+            $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => "multitek_no", "count" => 5, "exclude_replies" => true, "tweet_mode" => "extended"]);
+            set_transient( 'tweetline_multitek_no', $timeline, 12 * HOUR_IN_SECONDS );
+        }
+        ob_start();
         ?>
-        <li>
-            <div class="author">
-                <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar">
-                <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>" rel="noopener" target="_blank">
-                    <?php echo $tweet->user->name ?> (@<?php echo $tweet->user->screen_name ?>)
-                </a>
+        <div class="tweetline-block-tweetline-block">
+            <div>
+                <h2>
+                    Tidslinje for <?php echo $timeline[0]->user->name ?>
+                    <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" alt="" class="twttr-logo">
+                </h2>
             </div>
-            <div class="tweet">
-                <?php tweet_text($tweet) ?>
-            </div>
-            <div class="links">
-                <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="view" rel="noopener" target="_blank">
-                    Vis på Twitter
-                </a>
-                <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="date" rel="noopener" target="_blank">
-                    <time datetime="<?php echo $tweet->created_at ?>"><?php echo date_i18n( get_option( 'date_format' )/*"j. M. Y"*/, strtotime( $tweet->created_at ) ) ?></time>
-                </a>
-            </div>
-        </li>
+            <ul>
         <?php
+        foreach ($timeline as $tweet ) {
+            ?>
+            <li>
+                <div class="author">
+                    <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar">
+                    <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>" rel="noopener" target="_blank">
+                        <?php echo $tweet->user->name ?> (@<?php echo $tweet->user->screen_name ?>)
+                    </a>
+                </div>
+                <div class="tweet">
+                    <?php tweet_text($tweet) ?>
+                </div>
+                <div class="links">
+                    <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="view" rel="noopener" target="_blank">
+                        Vis på Twitter
+                    </a>
+                    <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="date" rel="noopener" target="_blank">
+                        <time datetime="<?php echo $tweet->created_at ?>"><?php echo date_i18n( get_option( 'date_format' )/*"j. M. Y"*/, strtotime( $tweet->created_at ) ) ?></time>
+                    </a>
+                </div>
+            </li>
+            <?php
+        }
+        ?>
+            </ul>
+        </div>
+        <?php
+        $string = ob_get_clean();
+        set_transient( 'tweetline_multitek_no_html', $string, 12 * HOUR_IN_SECONDS );
     }
-    ?>
-        </ul>
-    </div>
-    <?php
-    $string = ob_get_clean();
     return $string;
 }
 

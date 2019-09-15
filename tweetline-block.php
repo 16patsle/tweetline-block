@@ -98,3 +98,12 @@ function tweetline_block() {
 
 }
 add_action( 'init', 'tweetline_block' );
+
+function tweetline_shortcode( $atts ) {
+	/*$a = shortcode_atts( array(
+		'foo' => 'something',
+		'bar' => 'something else',
+    ), $atts );*/
+    return tweetline_block_render(null,null);
+}
+add_shortcode( 'tweetline', 'tweetline_shortcode' );

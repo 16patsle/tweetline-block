@@ -2,25 +2,20 @@
 
 }
 
-.tweetline-block-tweetline-block .twttr-logo {
-    height: .9em;
-    margin: 0 .25em;
-    margin-bottom: -.1em;
-}
-
 .tweetline-block-tweetline-block ul {
     margin-left: 0;
     list-style: none;
 }
 
 .tweetline-block-tweetline-block li {
-    margin: 5px 10px;
+    margin: 20px 0;
 }
 
 .tweetline-block-tweetline-block .author {
     display: flex;
     align-items: center;
     margin: 10px 0;
+    position: relative;
 }
 
 .tweetline-block-tweetline-block .author  a {
@@ -31,6 +26,15 @@
 
 .tweetline-block-tweetline-block .author img {
     height: 36px;
+}
+
+.tweetline-block-tweetline-block .author .twttr-logo {
+    height: .9em;
+    margin: 0 .25em;
+    margin-top: 0.2em;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .tweetline-block-tweetline-block .tweet {

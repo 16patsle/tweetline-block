@@ -23,7 +23,6 @@ function tweetline_block_render( $attributes, $content ) {
             <div>
                 <h2 class="widget-title">
                     Tidslinje for <?php echo $timeline[0]->user->name ?>
-                    <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" height="0.9em" alt="" class="twttr-logo">
                 </h2>
             </div>
             <ul>
@@ -36,6 +35,7 @@ function tweetline_block_render( $attributes, $content ) {
                     <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>" rel="noopener" target="_blank">
                         <?php echo $tweet->user->name ?> (@<?php echo $tweet->user->screen_name ?>)
                     </a>
+                    <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" height="0.9em" alt="" class="twttr-logo">
                 </div>
                 <div class="tweet">
                     <?php tweet_text($tweet) ?>

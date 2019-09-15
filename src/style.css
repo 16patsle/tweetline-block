@@ -35,6 +35,11 @@
     position: absolute;
     top: 0;
     right: 0;
+    filter: grayscale(1) brightness(1.8);
+}
+
+.tweetline-block-tweetline-block li:hover .author .twttr-logo {
+    filter: none;
 }
 
 .tweetline-block-tweetline-block .tweet {

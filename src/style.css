@@ -14,13 +14,13 @@
 }
 
 .tweetline-block-tweetline-block li {
-    margin: 20px 10px;
+    margin: 5px 10px;
 }
 
 .tweetline-block-tweetline-block .author {
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 10px 0;
 }
 
 .tweetline-block-tweetline-block .author  a {
@@ -34,14 +34,14 @@
 }
 
 .tweetline-block-tweetline-block .tweet {
-    margin: 10px;
+    margin: 10px 0;
 }
 
 .tweetline-block-tweetline-block .links {
     display: flex;
     justify-content: space-between;
     position: relative;
-    margin: 10px;
+    margin: 10px 0;
     font-size: .8em;
     font-size: 85%;
     margin-top: .5em;

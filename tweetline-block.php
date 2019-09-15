@@ -21,9 +21,9 @@ function tweetline_block_render( $attributes, $content ) {
         ?>
         <div class="tweetline-block-tweetline-block">
             <div>
-                <h2>
+                <h2 class="widget-title">
                     Tidslinje for <?php echo $timeline[0]->user->name ?>
-                    <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" alt="" class="twttr-logo">
+                    <img src="<?php echo plugins_url( 'assets/twttr.svg', __FILE__ ) ?>" height="0.9em" alt="" class="twttr-logo">
                 </h2>
             </div>
             <ul>

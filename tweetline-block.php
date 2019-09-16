@@ -85,7 +85,7 @@ function tweetline_block() {
     wp_register_script(
         'tweetline-block',
         plugins_url( 'build/index.js', __FILE__ ),
-        array( 'wp-blocks', 'wp-element', 'wp-components' ),
+        array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
         filemtime( plugin_dir_path( __FILE__ ) . 'build/index.js' )
     );
 

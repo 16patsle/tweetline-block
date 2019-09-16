@@ -8,14 +8,18 @@ require 'vendor/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 function tweetline_block_render( $attributes, $content ) {
-    if ( false === ( $string = get_transient( 'tweetline_multitek_no_html' ) ) ) {
+    if ( false === ( $string = get_transient( 'tweetline_' . $attributes['username'] . '_html' ) ) ) {
         // It wasn't there, so regenerate the data and save the transient
-        if ( false === ( $timeline = get_transient( 'tweetline_multitek_no' ) ) ) {
+        if ( false === ( $timeline = get_transient( 'tweetline_' . $attributes['username'] ) ) ) {
             // It wasn't there, so regenerate the data and save the transient
             $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
             $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
-            $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => "multitek_no", "count" => 5, "exclude_replies" => true, "tweet_mode" => "extended"]);
-            set_transient( 'tweetline_multitek_no', $timeline, 12 * HOUR_IN_SECONDS );
+            $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => $attributes['username'], "count" => 5, "exclude_replies" => true, "tweet_mode" => "extended"]);
+            if ( $twitter_connection->getLastHttpCode() == 200 ) {
+                set_transient( 'tweetline_' . $attributes['username'], $timeline, 12 * HOUR_IN_SECONDS );
+            } else {
+                return 'ERROR: Could not load timeline. The Twitter username ' . $attributes['username'] . ' may not exist';
+            }
         }
         ob_start();
         ?>
@@ -56,7 +60,7 @@ function tweetline_block_render( $attributes, $content ) {
         </div>
         <?php
         $string = ob_get_clean();
-        set_transient( 'tweetline_multitek_no_html', $string, 12 * HOUR_IN_SECONDS );
+        set_transient( 'tweetline_' . $attributes['username'] . '_html', $string, 12 * HOUR_IN_SECONDS );
     }
     return $string;
 }
@@ -93,7 +97,13 @@ function tweetline_block() {
     register_block_type( 'tweetline-block/tweetline-block', array(
         'editor_script' => 'tweetline-block',
         'style' => 'tweetline-block',
-        'render_callback' => 'tweetline_block_render'
+        'render_callback' => 'tweetline_block_render',
+        'attributes' => array(
+            'username' => array(
+                'type' => 'string',
+                'default' => ''
+            )
+        )
     ) );
 
 }

@@ -8,20 +8,22 @@ require 'vendor/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 function tweetline_block_render( $attributes, $content ) {
-    if ( false === ( $string = get_transient( 'tweetline_' . $attributes['username'] . '_html' ) ) ) {
+    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . $attributes['exclude_replies'];
+    if ( false === ( $string = get_transient( 'tweetline_' . $attributeSettingsString . '_html' ) ) ) {
         // It wasn't there, so regenerate the data and save the transient
-        if ( false === ( $timeline = get_transient( 'tweetline_' . $attributes['username'] ) ) ) {
+        if ( false === ( $timeline = get_transient( 'tweetline_' . $attributeSettingsString ) ) ) {
             // It wasn't there, so regenerate the data and save the transient
             $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
             $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
-            $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => $attributes['username'], "count" => 5, "exclude_replies" => true, "tweet_mode" => "extended"]);
+            $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => $attributes['username'], "count" => $attributes['count'], "exclude_replies" => $attributes['exclude_replies'], "tweet_mode" => "extended"]);
             if ( $twitter_connection->getLastHttpCode() == 200 ) {
-                set_transient( 'tweetline_' . $attributes['username'], $timeline, 12 * HOUR_IN_SECONDS );
+                set_transient( 'tweetline_' . $attributeSettingsString, $timeline, 12 * HOUR_IN_SECONDS );
             } else {
                 return 'ERROR: Could not load timeline. The Twitter username ' . $attributes['username'] . ' may not exist';
             }
         }
         ob_start();
+        //var_dump($attributes);
         ?>
         <div class="tweetline-block-tweetline-block">
             <div>
@@ -60,7 +62,7 @@ function tweetline_block_render( $attributes, $content ) {
         </div>
         <?php
         $string = ob_get_clean();
-        set_transient( 'tweetline_' . $attributes['username'] . '_html', $string, 12 * HOUR_IN_SECONDS );
+        set_transient( 'tweetline_' . $attributeSettingsString . '_html', $string, 12 * HOUR_IN_SECONDS );
     }
     return $string;
 }
@@ -102,6 +104,14 @@ function tweetline_block() {
             'username' => array(
                 'type' => 'string',
                 'default' => ''
+            ),
+            'count' => array(
+                'type' => 'number',
+                'default' => 5
+            ),
+            'exclude_replies' => array(
+                'type' => 'boolean',
+                'default' => true
             )
         )
     ) );

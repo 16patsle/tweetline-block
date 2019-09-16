@@ -8,7 +8,7 @@ require 'vendor/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 function tweetline_block_render( $attributes, $content ) {
-    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . $attributes['exclude_replies'];
+    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false');
     if ( false === ( $string = get_transient( 'tweetline_' . $attributeSettingsString . '_html' ) ) ) {
         // It wasn't there, so regenerate the data and save the transient
         if ( false === ( $timeline = get_transient( 'tweetline_' . $attributeSettingsString ) ) ) {

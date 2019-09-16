@@ -120,10 +120,11 @@ function tweetline_block() {
 add_action( 'init', 'tweetline_block' );
 
 function tweetline_shortcode( $atts ) {
-	/*$a = shortcode_atts( array(
-		'foo' => 'something',
-		'bar' => 'something else',
-    ), $atts );*/
-    return tweetline_block_render(null,null);
+	$a = shortcode_atts( array(
+		'username' => '',
+        'count' => 5,
+        'exclude_replies' => true
+    ), $atts );
+    return tweetline_block_render($a, null);
 }
 add_shortcode( 'tweetline', 'tweetline_shortcode' );

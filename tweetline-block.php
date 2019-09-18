@@ -2,6 +2,11 @@
 
 /*
 Plugin Name: Tweetline Block
+Plugin URI: https://github.com/16patsle/tweetline-block
+Description: Twitter timeline block for Gutenberg
+Version: 1.0.0
+Author: Patrick Sletvold
+Author URI: https://www.multitek.no
 */
 
 require 'vendor/autoload.php';

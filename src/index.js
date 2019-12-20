@@ -28,6 +28,11 @@ registerBlockType( 'tweetline-block/tweetline-block', {
                     checked={attributes.exclude_replies}
                     onChange={(exclude_replies) => setAttributes({ exclude_replies })}
                 />
+                <ToggleControl
+                    label="Show title"
+                    checked={attributes.show_title}
+                    onChange={(show_title) => setAttributes({ show_title })}
+                />
             </InspectorControls>
             <TextControl
                 label="Twitter username"

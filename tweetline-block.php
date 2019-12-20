@@ -13,7 +13,7 @@ require 'vendor/autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 function tweetline_block_render( $attributes, $content ) {
-    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false');
+    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false') . ',t:' . ($attributes['show_title'] ? 'true' : 'false');
     if ( false === ( $string = get_transient( 'tweetline_' . $attributeSettingsString . '_html' ) ) ) {
         // It wasn't there, so regenerate the data and save the transient
         if ( false === ( $timeline = get_transient( 'tweetline_' . $attributeSettingsString ) ) ) {
@@ -31,11 +31,17 @@ function tweetline_block_render( $attributes, $content ) {
         //var_dump($attributes);
         ?>
         <div class="tweetline-block-tweetline-block">
-            <div>
-                <h2 class="widget-title">
-                    Tidslinje for <?php echo $timeline[0]->user->name ?>
-                </h2>
-            </div>
+            <?php
+            if ( $attributes['show_title'] ) {
+                ?>
+                <div>
+                    <h2 class="widget-title">
+                        Tidslinje for <?php echo $timeline[0]->user->name ?>
+                    </h2>
+                </div>
+                <?php
+            }
+            ?>
             <ul>
         <?php
         foreach ($timeline as $tweet ) {
@@ -117,6 +123,10 @@ function tweetline_block() {
             'exclude_replies' => array(
                 'type' => 'boolean',
                 'default' => true
+            ),
+            'show_title' => array(
+                'type' => 'boolean',
+                'default' => true
             )
         )
     ) );
@@ -128,7 +138,8 @@ function tweetline_shortcode( $atts ) {
 	$a = shortcode_atts( array(
 		'username' => '',
         'count' => 5,
-        'exclude_replies' => true
+        'exclude_replies' => true,
+        'show_title' => false
     ), $atts );
     return tweetline_block_render($a, null);
 }

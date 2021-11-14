@@ -3,6 +3,6 @@
     "version": "1.0.0",
     "minimum-stability": "dev",
     "require" : {
-        "abraham/twitteroauth": "v1.x-dev"
+        "abraham/twitteroauth": "2.0.2"
     }
   }

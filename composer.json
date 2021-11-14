@@ -1,6 +1,6 @@
 {
     "name": "16patsle/tweetline-block",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "minimum-stability": "dev",
     "require" : {
         "abraham/twitteroauth": "2.0.2"

@@ -4,7 +4,7 @@
 Plugin Name: Tweetline Block
 Plugin URI: https://github.com/16patsle/tweetline-block
 Description: Twitter timeline block for Gutenberg
-Version: 1.1.0
+Version: 1.2.0
 Requires PHP: 7.3
 Author: Patrick Sletvold
 Author URI: https://www.multitek.no

@@ -11,6 +11,6 @@
   "author": "Patrick Sletvold <patricksletvold@hotmail.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@wordpress/scripts": "5.0.0"
+    "@wordpress/scripts": "19.1.0"
   }
 }

@@ -5,6 +5,7 @@ Plugin Name: Tweetline Block
 Plugin URI: https://github.com/16patsle/tweetline-block
 Description: Twitter timeline block for Gutenberg
 Version: 1.2.0
+Requires at least: 5.6
 Requires PHP: 7.3
 Author: Patrick Sletvold
 Author URI: https://www.multitek.no
@@ -95,43 +96,12 @@ function tweet_text($tweet) {
 }
 
 function tweetline_block() {
-    wp_register_script(
-        'tweetline-block',
-        plugins_url('build/index.js', __FILE__),
-        array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor'),
-        filemtime(plugin_dir_path(__FILE__) . 'build/index.js')
-    );
-
-    wp_register_style(
-        'tweetline-block',
-        plugins_url('src/style.css', __FILE__),
-        array(),
-        filemtime(plugin_dir_path(__FILE__) . 'src/style.css')
-    );
-
-    register_block_type('tweetline-block/tweetline-block', array(
-        'editor_script' => 'tweetline-block',
-        'style' => 'tweetline-block',
-        'render_callback' => 'tweetline_block_render',
-        'attributes' => array(
-            'username' => array(
-                'type' => 'string',
-                'default' => ''
-            ),
-            'count' => array(
-                'type' => 'number',
-                'default' => 5
-            ),
-            'exclude_replies' => array(
-                'type' => 'boolean',
-                'default' => true
-            ),
-            'show_title' => array(
-                'type' => 'boolean',
-                'default' => true
-            )
+    register_block_type(
+        __DIR__,
+        array(
+            'render_callback' => 'tweetline_block_render',
         )
-    ));
+    );
 }
 add_action('init', 'tweetline_block');
 

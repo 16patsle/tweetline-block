@@ -68,10 +68,10 @@ function tweetline_block_render($attributes, $content) {
                             <?php tweet_text($tweet) ?>
                         </div>
                         <div class="links">
-                            <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="view" rel="noopener" target="_blank">
+                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>/status/<?php echo $tweet->id_str ?>" class="view" rel="noopener" target="_blank">
                                 Vis på Twitter
                             </a>
-                            <a href="https://twitter.com/multitek_no/status/<?php echo $tweet->id ?>" class="date" rel="noopener" target="_blank">
+                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>/status/<?php echo $tweet->id_str ?>" class="date" rel="noopener" target="_blank">
                                 <time datetime="<?php echo $tweet->created_at ?>"><?php echo date_i18n(get_option('date_format')/*"j. M. Y"*/, strtotime($tweet->created_at)) ?></time>
                             </a>
                         </div>

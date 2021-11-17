@@ -120,6 +120,9 @@ function tweetline_endpoint($data) {
     if (false == $timeline = tweetline_get_timeline($attributeSettingsString, $attributes)) {
         return false;
     }
+    foreach ($timeline as $tweet) {
+        $tweet->created_at_formatted = date_i18n(get_option('date_format')/*"j. M. Y"*/, strtotime($tweet->created_at));
+    }
     return $timeline;
 }
 add_action('rest_api_init', function () {

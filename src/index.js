@@ -4,6 +4,7 @@ import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 import useSWR from 'swr';
+import { Tweet } from './Tweet';
 import './index.css';
 import './style.css';
 
@@ -19,7 +20,7 @@ registerBlockType('tweetline-block/tweetline-block', {
 		</svg>
 	),
 	edit: ({ attributes, setAttributes }) => {
-		const { data: tweets, error } = useSWR(
+		const { data: timeline, error } = useSWR(
 			'/tweetline/v1/timeline',
 			fetchFromAPI
 		);
@@ -64,11 +65,22 @@ registerBlockType('tweetline-block/tweetline-block', {
 					value={attributes.username}
 					onChange={(username) => setAttributes({ username })}
 				/>
-				{!error &&
-					tweets &&
-					tweets.map((val) => (
-						<div key={val.id_str}>{val.full_text}</div>
-					))}
+				{!error && timeline && (
+					<div className="tweetline-block-tweetline-block">
+						{attributes.show_title && (
+							<div>
+								<h2 className="widget-title">
+									Tidslinje for {timeline[0].user.name}
+								</h2>
+							</div>
+						)}
+						<ul>
+							{timeline.map((tweet) => (
+								<Tweet key={tweet.id_str} tweet={tweet} />
+							))}
+						</ul>
+					</div>
+				)}
 				{attributes.username !== '' ? (
 					<ServerSideRender
 						block="tweetline-block/tweetline-block"

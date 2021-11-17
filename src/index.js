@@ -21,7 +21,7 @@ registerBlockType('tweetline-block/tweetline-block', {
 	),
 	edit: ({ attributes, setAttributes }) => {
 		const { data: timeline, error } = useSWR(
-			'/tweetline/v1/timeline',
+			`/tweetline/v1/timeline?username=${attributes.username}&count=${attributes.count}&exclude_replies=${attributes.exclude_replies}`,
 			fetchFromAPI
 		);
 

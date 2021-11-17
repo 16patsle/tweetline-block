@@ -15,7 +15,8 @@ require 'vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
-function tweetline_get_timeline($attributeSettingsString, $attributes) {
+function tweetline_get_timeline($attributes) {
+    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false');
     if (false === ($timeline = get_transient('tweetline_' . $attributeSettingsString))) {
         // It wasn't there, so regenerate the data and save the transient
         $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
@@ -34,7 +35,7 @@ function tweetline_block_render($attributes, $content) {
     $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false') . ',t:' . ($attributes['show_title'] ? 'true' : 'false');
     if (false === ($string = get_transient('tweetline_' . $attributeSettingsString . '_html'))) {
         // It wasn't there, so regenerate the data and save the transient
-        if (false === ($timeline = tweetline_get_timeline($attributeSettingsString, $attributes))) {
+        if (false === ($timeline = tweetline_get_timeline($attributes))) {
             return __(sprintf('ERROR: Could not load timeline. The Twitter username %s may not exist', $attributes['username']), 'tweetline');
         }
         ob_start();
@@ -105,19 +106,16 @@ function tweet_text($tweet) {
 /**
  * Fetch a Twitter user's timeline
  *
- * @param array $data Options for the function.
- * @return array|null The timeline, or null if none.
+ * @param WP_REST_Request $request The request object.
+ * @return array|false The timeline, or false if none.
  */
-function tweetline_endpoint($data) {
+function tweetline_endpoint($request) {
     $attributes = array(
-        'username' => 'datapatrick',
-        'count' => '5',
-        'exclude_replies' => true,
-        'show_title' => true
+        'username' => $request->get_param('username'),
+        'count' => (int) $request->get_param('count'),
+        'exclude_replies' => (bool) $request->get_param('exclude_replies')
     );
-    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false') . ',t:' . ($attributes['show_title'] ? 'true' : 'false');
-
-    if (false == $timeline = tweetline_get_timeline($attributeSettingsString, $attributes)) {
+    if (false == $timeline = tweetline_get_timeline($attributes)) {
         return false;
     }
     foreach ($timeline as $tweet) {

@@ -15,20 +15,27 @@ require 'vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+function tweetline_get_timeline($attributeSettingsString, $attributes) {
+    if (false === ($timeline = get_transient('tweetline_' . $attributeSettingsString))) {
+        // It wasn't there, so regenerate the data and save the transient
+        $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
+        $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
+        $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => $attributes['username'], "count" => $attributes['count'], "exclude_replies" => $attributes['exclude_replies'], "tweet_mode" => "extended"]);
+        if ($twitter_connection->getLastHttpCode() == 200) {
+            set_transient('tweetline_' . $attributeSettingsString, $timeline, 12 * HOUR_IN_SECONDS);
+        } else {
+            return false;
+        }
+    }
+    return $timeline;
+}
+
 function tweetline_block_render($attributes, $content) {
     $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false') . ',t:' . ($attributes['show_title'] ? 'true' : 'false');
     if (false === ($string = get_transient('tweetline_' . $attributeSettingsString . '_html'))) {
         // It wasn't there, so regenerate the data and save the transient
-        if (false === ($timeline = get_transient('tweetline_' . $attributeSettingsString))) {
-            // It wasn't there, so regenerate the data and save the transient
-            $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
-            $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
-            $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => $attributes['username'], "count" => $attributes['count'], "exclude_replies" => $attributes['exclude_replies'], "tweet_mode" => "extended"]);
-            if ($twitter_connection->getLastHttpCode() == 200) {
-                set_transient('tweetline_' . $attributeSettingsString, $timeline, 12 * HOUR_IN_SECONDS);
-            } else {
-                return 'ERROR: Could not load timeline. The Twitter username ' . $attributes['username'] . ' may not exist';
-            }
+        if (false === ($timeline = tweetline_get_timeline($attributeSettingsString, $attributes))) {
+            return __(sprintf('ERROR: Could not load timeline. The Twitter username %s may not exist', $attributes['username']), 'tweetline');
         }
         ob_start();
         //var_dump($attributes);
@@ -94,6 +101,36 @@ function tweet_text($tweet) {
     }
     echo $text;
 }
+
+/**
+ * Fetch a Twitter user's timeline
+ *
+ * @param array $data Options for the function.
+ * @return array|null The timeline, or null if none.
+ */
+function tweetline_endpoint($data) {
+    $attributes = array(
+        'username' => 'datapatrick',
+        'count' => '5',
+        'exclude_replies' => true,
+        'show_title' => true
+    );
+    $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false') . ',t:' . ($attributes['show_title'] ? 'true' : 'false');
+
+    if (false == $timeline = tweetline_get_timeline($attributeSettingsString, $attributes)) {
+        return false;
+    }
+    return $timeline;
+}
+add_action('rest_api_init', function () {
+    register_rest_route('tweetline/v1', '/timeline', array(
+        'methods' => 'GET',
+        'callback' => 'tweetline_endpoint',
+        'permission_callback' => function () {
+            return current_user_can('edit_posts');
+        },
+    ));
+});
 
 function tweetline_block() {
     register_block_type(

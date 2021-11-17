@@ -2,7 +2,6 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import ServerSideRender from '@wordpress/server-side-render';
 import useSWR from 'swr';
 import { Tweet } from './Tweet';
 import './index.css';
@@ -65,6 +64,8 @@ registerBlockType('tweetline-block/tweetline-block', {
 					value={attributes.username}
 					onChange={(username) => setAttributes({ username })}
 				/>
+				{attributes.username === '' &&
+					'Please enter a valid Twitter username'}
 				{!error && timeline && (
 					<div className="tweetline-block-tweetline-block">
 						{attributes.show_title && (
@@ -81,14 +82,7 @@ registerBlockType('tweetline-block/tweetline-block', {
 						</ul>
 					</div>
 				)}
-				{attributes.username !== '' ? (
-					<ServerSideRender
-						block="tweetline-block/tweetline-block"
-						attributes={attributes}
-					/>
-				) : (
-					'Please enter a valid Twitter username'
-				)}
+				{error && 'Error: ' + error.message}
 			</div>
 		);
 	},

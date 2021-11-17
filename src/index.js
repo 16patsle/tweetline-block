@@ -3,8 +3,11 @@ import { registerBlockType } from '@wordpress/blocks';
 import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
+import useSWR from 'swr';
 import './index.css';
 import './style.css';
+
+const fetchFromAPI = (path) => wp.apiFetch({ path });
 
 registerBlockType('tweetline-block/tweetline-block', {
 	icon: (
@@ -16,8 +19,13 @@ registerBlockType('tweetline-block/tweetline-block', {
 		</svg>
 	),
 	edit: ({ attributes, setAttributes }) => {
+		const { data: tweets, error } = useSWR(
+			'/tweetline/v1/timeline',
+			fetchFromAPI
+		);
+
 		return (
-			<div { ...useBlockProps() }>
+			<div {...useBlockProps()}>
 				<InspectorControls>
 					<PanelBody title={__('Settings')}>
 						<TextControl
@@ -56,6 +64,11 @@ registerBlockType('tweetline-block/tweetline-block', {
 					value={attributes.username}
 					onChange={(username) => setAttributes({ username })}
 				/>
+				{!error &&
+					tweets &&
+					tweets.map((val) => (
+						<div key={val.id_str}>{val.full_text}</div>
+					))}
 				{attributes.username !== '' ? (
 					<ServerSideRender
 						block="tweetline-block/tweetline-block"

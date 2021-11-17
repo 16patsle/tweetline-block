@@ -1,10 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import {
-	ServerSideRender,
-	TextControl,
-	ToggleControl,
-} from '@wordpress/components';
-import { InspectorControls } from '@wordpress/editor';
+import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import ServerSideRender from '@wordpress/server-side-render';
 
 registerBlockType('tweetline-block/tweetline-block', {
 	icon: (
@@ -17,35 +15,40 @@ registerBlockType('tweetline-block/tweetline-block', {
 	),
 	edit: ({ attributes, setAttributes }) => {
 		return (
-			<div>
+			<div { ...useBlockProps() }>
 				<InspectorControls>
-					<TextControl
-						label="Amount of tweets to show"
-						type="number"
-						value={attributes.count}
-						onChange={(count) => {
-							if (count < 1) {
-								setAttributes({ count: 1 });
-							} else if (count > 200) {
-								setAttributes({ count: 200 });
-							} else {
-								setAttributes({ count });
+					<PanelBody title={__('Settings')}>
+						<TextControl
+							label="Amount of tweets to show"
+							type="number"
+							value={attributes.count}
+							onChange={(count) => {
+								if (count < 1) {
+									setAttributes({ count: 1 });
+								} else if (count > 200) {
+									setAttributes({ count: 200 });
+								} else {
+									setAttributes({ count });
+								}
+							}}
+						/>
+						<ToggleControl
+							label="Exclude replies"
+							checked={attributes.exclude_replies}
+							onChange={(exclude_replies) =>
+								setAttributes({ exclude_replies })
 							}
-						}}
-					/>
-					<ToggleControl
-						label="Exclude replies"
-						checked={attributes.exclude_replies}
-						onChange={(exclude_replies) =>
-							setAttributes({ exclude_replies })
-						}
-					/>
-					<ToggleControl
-						label="Show title"
-						checked={attributes.show_title}
-						onChange={(show_title) => setAttributes({ show_title })}
-					/>
+						/>
+						<ToggleControl
+							label="Show title"
+							checked={attributes.show_title}
+							onChange={(show_title) =>
+								setAttributes({ show_title })
+							}
+						/>
+					</PanelBody>
 				</InspectorControls>
+
 				<TextControl
 					label="Twitter username"
 					value={attributes.username}

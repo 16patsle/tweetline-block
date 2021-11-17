@@ -23,7 +23,8 @@ registerBlockType('tweetline-block/tweetline-block', {
 				<InspectorControls>
 					<PanelBody title={__('Settings')}>
 						<TextControl
-							label="Amount of tweets to show"
+							label="Tweet count"
+							help="Max amount of tweets to show."
 							type="number"
 							value={attributes.count}
 							onChange={(count) => {
@@ -38,6 +39,7 @@ registerBlockType('tweetline-block/tweetline-block', {
 						/>
 						<ToggleControl
 							label="Exclude replies"
+							help="Hides replies from the feed. May result in fewer tweets being shown."
 							checked={attributes.exclude_replies}
 							onChange={(exclude_replies) =>
 								setAttributes({ exclude_replies })
@@ -45,6 +47,7 @@ registerBlockType('tweetline-block/tweetline-block', {
 						/>
 						<ToggleControl
 							label="Show title"
+							help="Shows a widget style title."
 							checked={attributes.show_title}
 							onChange={(show_title) =>
 								setAttributes({ show_title })

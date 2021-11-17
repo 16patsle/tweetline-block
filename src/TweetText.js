@@ -1,5 +1,5 @@
+import { processTweet } from './processTweet';
+
 export const TweetText = ({ tweet }) => {
-	const text = tweet.full_text;
-	
-	return text;
+	return processTweet(tweet);
 };

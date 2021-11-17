@@ -28,7 +28,7 @@
     color: inherit;
 }
 
-.tweetline-block-tweetline-block .author img {
+.tweetline-block-tweetline-block .author .author-img {
     height: 36px;
     border-radius: 50%;
 }

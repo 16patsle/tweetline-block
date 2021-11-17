@@ -51,7 +51,7 @@ function tweetline_block_render($attributes, $content) {
                 ?>
                     <li>
                         <div class="author">
-                            <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar">
+                            <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar" class="author-img">
                             <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>" rel="noopener" target="_blank">
                                 <?php echo $tweet->user->name ?> (@<?php echo $tweet->user->screen_name ?>)
                             </a>

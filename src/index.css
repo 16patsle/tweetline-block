@@ -1,0 +1,5 @@
+/* Editor-only styles */
+.editor-styles-wrapper .tweetline-block-tweetline-block ul {
+  padding-left: 0;
+  list-style: none;
+}

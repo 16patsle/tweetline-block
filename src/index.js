@@ -3,6 +3,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
+import './index.css';
 import './style.css';
 
 registerBlockType('tweetline-block/tweetline-block', {

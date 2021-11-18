@@ -3,69 +3,70 @@
 }
 
 .tweetline-block-tweetline-block ul {
-    margin-left: 0;
-    list-style: none;
+	margin-left: 0;
+	list-style: none;
 }
 
 .tweetline-block-tweetline-block li {
-    padding: 10px;
+	padding: 10px;
 }
 
 .tweetline-block-tweetline-block li:hover {
-    background:rgba(160, 200, 220, .12);
+	background: rgba(160, 200, 220, 0.12);
 }
 
 .tweetline-block-tweetline-block .author {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    position: relative;
+	display: flex;
+	align-items: center;
+	margin: 10px 0;
+	position: relative;
 }
 
 .tweetline-block-tweetline-block .author  a {
-    margin: 0 10px;
-    font-weight: 700;
-    color: inherit;
+	margin: 0 10px;
+	font-weight: 700;
+	color: inherit;
 }
 
 .tweetline-block-tweetline-block .author .author-img {
-    height: 36px;
-    border-radius: 50%;
+	height: 36px;
+	border-radius: 50%;
 }
 
 .tweetline-block-tweetline-block .author .twttr-logo {
-    height: .9em;
-    margin: 0 .25em;
-    margin-top: 0.2em;
-    position: absolute;
-    top: 0;
-    right: 0;
-    filter: grayscale(1) brightness(1.85);
+	height: 0.9em;
+	margin: 0 0.25em;
+	margin-top: 0.2em;
+	position: absolute;
+	top: 0;
+	right: 0;
+	filter: grayscale(1) brightness(1.85);
 }
 
 .tweetline-block-tweetline-block li:hover .author .twttr-logo {
-    filter: none;
+	filter: none;
 }
 
 .tweetline-block-tweetline-block .tweet {
-    margin: 10px 0;
+	margin: 10px 0;
 }
 
 .tweetline-block-tweetline-block .links {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    margin: 10px 0;
-    font-size: .8em;
-    font-size: 85%;
-    margin-top: .5em;
-    line-height: 1.5;
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+	margin: 10px 0;
+	font-size: 0.8em;
+	font-size: 85%;
+	margin-top: 0.5em;
+	line-height: 1.5;
 }
 
-.tweetline-block-tweetline-block .links a, .tweetline-block-tweetline-block .links a:visited {
-    color: #595959;
+.tweetline-block-tweetline-block .links a,
+.tweetline-block-tweetline-block .links a:visited {
+	color: #595959;
 }
 
 .tweetline-block-tweetline-block .links a:hover {
-    color: #1e73be;
+	color: #1e73be;
 }

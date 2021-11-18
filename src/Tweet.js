@@ -12,7 +12,7 @@ export const Tweet = ({ tweet }) => {
 				/>
 				<a
 					href={`https://twitter.com/${tweet.user.screen_name}`}
-					rel="noopener"
+					rel="noopener noreferrer"
 					target="_blank"
 				>
 					{tweet.user.name} (@{tweet.user.screen_name})
@@ -31,7 +31,7 @@ export const Tweet = ({ tweet }) => {
 				<a
 					href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
 					className="view"
-					rel="noopener"
+					rel="noopener noreferrer"
 					target="_blank"
 				>
 					Vis på Twitter
@@ -39,7 +39,7 @@ export const Tweet = ({ tweet }) => {
 				<a
 					href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
 					className="date"
-					rel="noopener"
+					rel="noopener noreferrer"
 					target="_blank"
 				>
 					<time dateTime="<?php echo $tweet->created_at ?>">

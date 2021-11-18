@@ -24,7 +24,7 @@ function handleEntity(entity) {
 			<a
 				href={`https://twitter.com/${entity.screen_name}`}
 				title={`${entity.name} (@${entity.screen_name})`}
-				rel="noopener"
+				rel="noopener noreferrer"
 				target="_blank"
 				key={entity.screen_name + offset}
 			>
@@ -35,7 +35,7 @@ function handleEntity(entity) {
 		children.push(
 			<a
 				href={entity.expanded_url}
-				rel="nofollow noopener"
+				rel="nofollow noopener noreferrer"
 				target="_blank"
 				key={entity.display_url + offset}
 			>
@@ -46,7 +46,7 @@ function handleEntity(entity) {
 		children.push(
 			<a
 				href={`https://twitter.com/hashtag/${entity.text}?src=hash`}
-				rel="noopener"
+				rel="noopener noreferrer"
 				target="_blank"
 				key={entity.text + offset}
 			>

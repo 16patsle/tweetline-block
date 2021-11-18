@@ -67,7 +67,7 @@ function tweetline_block_render($attributes, $content) {
                     <li>
                         <div class="author">
                             <img src="<?php echo $tweet->user->profile_image_url_https ?>" alt="avatar" class="author-img">
-                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>" rel="noopener" target="_blank">
+                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>" rel="noopener noreferrer" target="_blank">
                                 <?php echo $tweet->user->name ?> (@<?php echo $tweet->user->screen_name ?>)
                             </a>
                             <img src="<?php echo plugins_url('assets/twttr.svg', __FILE__) ?>" height="0.9em" alt="" class="twttr-logo">
@@ -76,10 +76,10 @@ function tweetline_block_render($attributes, $content) {
                             <?php tweet_text($tweet) ?>
                         </div>
                         <div class="links">
-                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>/status/<?php echo $tweet->id_str ?>" class="view" rel="noopener" target="_blank">
+                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>/status/<?php echo $tweet->id_str ?>" class="view" rel="noopener noreferrer" target="_blank">
                                 Vis på Twitter
                             </a>
-                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>/status/<?php echo $tweet->id_str ?>" class="date" rel="noopener" target="_blank">
+                            <a href="https://twitter.com/<?php echo $tweet->user->screen_name ?>/status/<?php echo $tweet->id_str ?>" class="date" rel="noopener noreferrer" target="_blank">
                                 <time datetime="<?php echo $tweet->created_at ?>"><?php echo date_i18n(get_option('date_format')/*"j. M. Y"*/, strtotime($tweet->created_at)) ?></time>
                             </a>
                         </div>
@@ -99,13 +99,13 @@ function tweetline_block_render($attributes, $content) {
 function tweet_text($tweet) {
     $text = $tweet->full_text;
     foreach ($tweet->entities->urls as $url) {
-        $text = str_replace($url->url, '<a href="' . $url->url . '" rel="nofollow noopener" target="_blank">' . $url->display_url . '</a>', $text);
+        $text = str_replace($url->url, '<a href="' . $url->url . '" rel="nofollow noopener noreferrer" target="_blank">' . $url->display_url . '</a>', $text);
     }
     foreach ($tweet->entities->user_mentions as $user_mention) {
-        $text = str_replace('@' . $user_mention->screen_name, '<a href="https://twitter.com/' . $user_mention->screen_name . '" title="' . $user_mention->name . ' (@' . $user_mention->screen_name . ')' . '" rel="noopener" target="_blank">@' . $user_mention->screen_name . '</a>', $text);
+        $text = str_replace('@' . $user_mention->screen_name, '<a href="https://twitter.com/' . $user_mention->screen_name . '" title="' . $user_mention->name . ' (@' . $user_mention->screen_name . ')' . '" rel="noopener noreferrer" target="_blank">@' . $user_mention->screen_name . '</a>', $text);
     }
     foreach ($tweet->entities->hashtags as $hashtag) {
-        $text = str_replace('#' . $hashtag->text, '<a href="https://twitter.com/hashtag/' . $hashtag->text . '?src=hash" rel="noopener" target="_blank">#' . $hashtag->text . '</a>', $text);
+        $text = str_replace('#' . $hashtag->text, '<a href="https://twitter.com/hashtag/' . $hashtag->text . '?src=hash" rel="noopener noreferrer" target="_blank">#' . $hashtag->text . '</a>', $text);
     }
     echo $text;
 }

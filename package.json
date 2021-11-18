@@ -2,7 +2,25 @@
   "name": "tweetline-block",
   "version": "1.3.0",
   "description": "Twitter timeline block",
+  "author": "Patrick Sletvold <patricksletvold@hotmail.com>",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "homepage": "https://github.com/16patsle/tweetline-block#readme",
+  "repository": {
+    "type": "git",
+    "url": "github:16patsle/tweetline-block"
+  },
+  "bugs": {
+    "url": "https://github.com/16patsle/tweetline-block/issues"
+  },
   "main": "build/index.js",
+  "dependencies": {
+    "swr": "^1.0.1"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^4.1.3",
+    "@wordpress/scripts": "19.1.0"
+  },
   "scripts": {
     "build": "wp-scripts build",
     "check-engines": "wp-scripts check-engines",
@@ -17,14 +35,5 @@
     "start": "wp-scripts start",
     "test:e2e": "wp-scripts test-e2e",
     "test:unit": "wp-scripts test-unit-js"
-  },
-  "author": "Patrick Sletvold <patricksletvold@hotmail.com>",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "@wordpress/env": "^4.1.3",
-    "@wordpress/scripts": "19.1.0"
-  },
-  "dependencies": {
-    "swr": "^1.0.1"
   }
 }

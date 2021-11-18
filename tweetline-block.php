@@ -43,7 +43,7 @@ function tweetline_block_render($attributes, $content) {
     if (false === ($string = get_transient('tweetline_' . $attributeSettingsString . '_html'))) {
         // It wasn't there, so regenerate the data and save the transient
         if (is_numeric($timeline = tweetline_get_timeline($attributes))) {
-            return __(sprintf('ERROR: Could not load timeline. The Twitter username %s may not exist', $attributes['username']), 'tweetline');
+            return __(sprintf('ERROR: Could not load timeline. The Twitter user @%s may not exist, or may be private', $attributes['username']), 'tweetline');
         }
         ob_start();
         //var_dump($attributes);
@@ -123,11 +123,19 @@ function tweetline_endpoint($request) {
         'exclude_replies' => (bool) $request->get_param('exclude_replies')
     );
     if (is_numeric($timeline = tweetline_get_timeline($attributes))) {
-        return new WP_Error(
-            'api_error',
-            __(sprintf('ERROR: Could not load timeline. The Twitter username %s may not exist', $attributes['username']), 'tweetline'),
-            array('status' => $timeline),
-        );
+        if ($timeline == 404) {
+            return new WP_Error(
+                'api_error_not_found',
+                __(sprintf('The Twitter user @%s does not exist', $attributes['username']), 'tweetline'),
+                array('status' => $timeline),
+            );
+        } else {
+            return new WP_Error(
+                'api_error',
+                __(sprintf('Could not load timeline. The Twitter user @%s may not exist, or may be private', $attributes['username']), 'tweetline'),
+                array('status' => $timeline),
+            );
+        }
     }
     foreach ($timeline as $tweet) {
         $tweet->created_at_formatted = date_i18n(get_option('date_format')/*"j. M. Y"*/, strtotime($tweet->created_at));

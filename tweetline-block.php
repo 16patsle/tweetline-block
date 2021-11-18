@@ -15,6 +15,12 @@ require 'vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+/**
+ * Fetch a Twitter user's timeline using the Twitter API
+ *
+ * @param array $attributes username, count and exclude_replies attributes.
+ * @return array|int The timeline, or an error code if none.
+ */
 function tweetline_get_timeline($attributes) {
     $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false');
     if (false === ($timeline = get_transient('tweetline_' . $attributeSettingsString))) {
@@ -22,10 +28,11 @@ function tweetline_get_timeline($attributes) {
         $keys = json_decode(file_get_contents(__DIR__ . "/keys.json"));
         $twitter_connection = new TwitterOAuth($keys->tweetline_key, $keys->tweetline_secret);
         $timeline = $twitter_connection->get("statuses/user_timeline", ["screen_name" => $attributes['username'], "count" => $attributes['count'], "exclude_replies" => $attributes['exclude_replies'], "tweet_mode" => "extended"]);
-        if ($twitter_connection->getLastHttpCode() == 200) {
+        $statuscode = $twitter_connection->getLastHttpCode();
+        if ($statuscode == 200) {
             set_transient('tweetline_' . $attributeSettingsString, $timeline, 12 * HOUR_IN_SECONDS);
         } else {
-            return false;
+            return $statuscode;
         }
     }
     return $timeline;
@@ -35,7 +42,7 @@ function tweetline_block_render($attributes, $content) {
     $attributeSettingsString = 'u:' . $attributes['username'] . ',c:' . $attributes['count'] . ',r:' . ($attributes['exclude_replies'] ? 'true' : 'false') . ',t:' . ($attributes['show_title'] ? 'true' : 'false');
     if (false === ($string = get_transient('tweetline_' . $attributeSettingsString . '_html'))) {
         // It wasn't there, so regenerate the data and save the transient
-        if (false === ($timeline = tweetline_get_timeline($attributes))) {
+        if (is_numeric($timeline = tweetline_get_timeline($attributes))) {
             return __(sprintf('ERROR: Could not load timeline. The Twitter username %s may not exist', $attributes['username']), 'tweetline');
         }
         ob_start();
@@ -115,8 +122,12 @@ function tweetline_endpoint($request) {
         'count' => (int) $request->get_param('count'),
         'exclude_replies' => (bool) $request->get_param('exclude_replies')
     );
-    if (false == $timeline = tweetline_get_timeline($attributes)) {
-        return false;
+    if (is_numeric($timeline = tweetline_get_timeline($attributes))) {
+        return new WP_Error(
+            'api_error',
+            __(sprintf('ERROR: Could not load timeline. The Twitter username %s may not exist', $attributes['username']), 'tweetline'),
+            array('status' => $timeline),
+        );
     }
     foreach ($timeline as $tweet) {
         $tweet->created_at_formatted = date_i18n(get_option('date_format')/*"j. M. Y"*/, strtotime($tweet->created_at));

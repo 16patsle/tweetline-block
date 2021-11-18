@@ -1,6 +1,6 @@
 {
   "name": "tweetline-block",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Twitter timeline block",
   "main": "build/index.js",
   "scripts": {

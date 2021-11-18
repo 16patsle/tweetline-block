@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import apiFetch from "@wordpress/api-fetch";
+import apiFetch from '@wordpress/api-fetch';
 import { registerBlockType } from '@wordpress/blocks';
 import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
@@ -62,11 +62,12 @@ registerBlockType('tweetline-block/tweetline-block', {
 					value={attributes.username}
 					onChange={(username) => setAttributes({ username })}
 				/>
-				{attributes.username === '' &&
-					'Please enter a valid Twitter username'}
+				{attributes.username === ''
+					? 'Please enter a valid Twitter username'
+					: error && 'Error: ' + error.message}
 				{!error && timeline && (
 					<div className="tweetline-block-tweetline-block">
-						{attributes.show_title && (
+						{attributes.show_title && timeline[0] && (
 							<div>
 								<h2 className="widget-title">
 									Tidslinje for {timeline[0].user.name}
@@ -80,7 +81,6 @@ registerBlockType('tweetline-block/tweetline-block', {
 						</ul>
 					</div>
 				)}
-				{error && 'Error: ' + error.message}
 			</div>
 		);
 	},

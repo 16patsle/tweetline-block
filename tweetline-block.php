@@ -130,6 +130,26 @@ add_action('rest_api_init', function () {
         'permission_callback' => function () {
             return current_user_can('edit_posts');
         },
+        'args' => array(
+            'username' => array(
+                'required' => true,
+                'validate_callback' => function ($param, $request, $key) {
+                    return is_string($param) && !empty($param);
+                },
+            ),
+            'count' => array(
+                'default' => 5,
+                'validate_callback' => function ($param, $request, $key) {
+                    return is_numeric($param);
+                },
+            ),
+            'exclude_replies' => array(
+                'default' => true,
+                'validate_callback' => function ($param, $request, $key) {
+                    return in_array($param, array('true', 'false', '1', '0'));
+                }
+            ),
+        ),
     ));
 });
 

@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import apiFetch from "@wordpress/api-fetch";
 import { registerBlockType } from '@wordpress/blocks';
 import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
@@ -8,7 +9,7 @@ import { ReactComponent as TwitterLogo } from '../assets/twttr.svg';
 import './index.css';
 import './style.css';
 
-const fetchFromAPI = (path) => wp.apiFetch({ path });
+const fetchFromAPI = (path) => apiFetch({ path });
 
 registerBlockType('tweetline-block/tweetline-block', {
 	icon: <TwitterLogo />,

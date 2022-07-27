@@ -18,13 +18,14 @@ const fetchFromAPI = ( path ) => apiFetch( { path } );
  * @return {WPElement} Element to render.
  */
 export default function Edit( { attributes, setAttributes } ) {
+	const blockProps = useBlockProps({ className: 'tweetline-block-tweetline-block'});
 	const { data: timeline, error } = useSWR(
 		`/tweetline/v1/timeline?username=${ attributes.username }&count=${ attributes.count }&exclude_replies=${ attributes.exclude_replies }`,
 		fetchFromAPI
 	);
 
 	return (
-		<div { ...useBlockProps() }>
+		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings' ) }>
 					<TextControl
@@ -70,7 +71,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				? 'Please enter a valid Twitter username'
 				: error && 'Error: ' + error.message }
 			{ ! error && timeline && (
-				<div className="tweetline-block-tweetline-block">
+				<div div { ...blockProps }>
 					{ attributes.show_title && timeline[ 0 ] && (
 						<div>
 							<h2 className="widget-title">
@@ -85,6 +86,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					</ul>
 				</div>
 			) }
-		</div>
+		</>
 	);
 }

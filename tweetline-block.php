@@ -45,10 +45,12 @@ function tweetline_block_render($attributes, $content) {
         if (is_numeric($timeline = tweetline_get_timeline($attributes))) {
             return __(sprintf('ERROR: Could not load timeline. The Twitter user @%s may not exist, or may be private', $attributes['username']), 'tweetline');
         }
+		$block_wrapper_attributes = get_block_wrapper_attributes(array( 'class' => 'tweetline-block-tweetline-block'));
+
         ob_start();
         //var_dump($attributes);
 ?>
-        <div class="tweetline-block-tweetline-block">
+        <div <?php echo $block_wrapper_attributes ?>>
             <?php
             if ($attributes['show_title']) {
             ?>

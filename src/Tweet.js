@@ -42,7 +42,7 @@ export const Tweet = ( { tweet } ) => {
 					rel="noopener noreferrer"
 					target="_blank"
 				>
-					<time dateTime="<?php echo $tweet->created_at ?>">
+					<time dateTime={ tweet.created_at }>
 						{ tweet.created_at_formatted }
 					</time>
 				</a>

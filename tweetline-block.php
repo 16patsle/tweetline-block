@@ -174,7 +174,7 @@ add_action('rest_api_init', function () {
 
 function tweetline_block() {
     register_block_type(
-        __DIR__,
+        __DIR__ . '/build/tweetline-block',
         array(
             'render_callback' => 'tweetline_block_render',
         )

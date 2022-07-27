@@ -23,7 +23,7 @@
 			"default": true
 		}
 	},
-	"textdomain": "tweetline-block",
+	"textdomain": "tweetline",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"

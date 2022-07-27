@@ -9,6 +9,7 @@ Requires at least: 5.6
 Requires PHP: 7.3
 Author: Patrick Sletvold
 Author URI: https://www.multitek.no
+Text Domain: tweetline
 */
 
 require 'vendor/autoload.php';
@@ -43,7 +44,7 @@ function tweetline_block_render($attributes, $content) {
     if (false === ($string = get_transient('tweetline_' . $attributeSettingsString . '_html'))) {
         // It wasn't there, so regenerate the data and save the transient
         if (is_numeric($timeline = tweetline_get_timeline($attributes))) {
-            return __(sprintf('ERROR: Could not load timeline. The Twitter user @%s may not exist, or may be private', $attributes['username']), 'tweetline');
+            return sprintf(__('ERROR: Could not load timeline. The Twitter user @%s may not exist, or may be private', 'tweetline'), $attributes['username']);
         }
 		$block_wrapper_attributes = get_block_wrapper_attributes(array( 'class' => 'tweetline-block-tweetline-block'));
 
@@ -128,13 +129,13 @@ function tweetline_endpoint($request) {
         if ($timeline == 404) {
             return new WP_Error(
                 'api_error_not_found',
-                __(sprintf('The Twitter user @%s does not exist', $attributes['username']), 'tweetline'),
+				sprintf(__('The Twitter user @%s does not exist', 'tweetline'), $attributes['username']),
                 array('status' => $timeline),
             );
         } else {
             return new WP_Error(
                 'api_error',
-                __(sprintf('Could not load timeline. The Twitter user @%s may not exist, or may be private', $attributes['username']), 'tweetline'),
+                sprintf(__('Could not load timeline. The Twitter user @%s may not exist, or may be private', 'tweetline'), $attributes['username']),
                 array('status' => $timeline),
             );
         }

@@ -31,6 +31,13 @@ export default function Edit( { attributes, setAttributes } ) {
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings' ) }>
 					<TextControl
+						label={ __( 'Twitter username' ) }
+						value={ attributes.username }
+						onChange={ ( username ) =>
+							setAttributes( { username } )
+						}
+					/>
+					<TextControl
 						label={ __( 'Tweet count' ) }
 						help={ __( 'Max amount of tweets to show.' ) }
 						type="number"
@@ -66,16 +73,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 
-			<TextControl
-				label={ __( 'Twitter username' ) }
-				value={ attributes.username }
-				onChange={ ( username ) => setAttributes( { username } ) }
-			/>
 			{ attributes.username === ''
 				? __( 'Please enter a valid Twitter username' )
 				: error && sprintf( 'Error: %s', error.message ) }
 			{ ! error && timeline && (
-				<div div { ...blockProps }>
+				<div { ...blockProps }>
 					{ attributes.show_title && timeline[ 0 ] && (
 						<div>
 							<h2 className="widget-title">

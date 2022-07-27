@@ -4,8 +4,8 @@ import './style.scss';
 
 import Edit from './edit';
 
-registerBlockType('tweetline-block/tweetline-block', {
+registerBlockType( 'tweetline-block/tweetline-block', {
 	icon: <TwitterLogo />,
 	edit: Edit,
 	save: () => null,
-});
+} );

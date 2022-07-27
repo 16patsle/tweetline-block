@@ -1,30 +1,30 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
-  "name": "tweetline-block/tweetline-block",
-  "title": "Tweetline",
-  "category": "design",
-  "icon": "twitter-alt",
-  "attributes": {
-    "username": {
-      "type": "string",
-      "default": ""
-    },
-    "count": {
-      "type": "number",
-      "default": 5
-    },
-    "exclude_replies": {
-      "type":"boolean",
-      "default": true
-    },
-    "show_title": {
-      "type": "boolean",
-      "default": true
-    }
-  },
-  "textdomain": "tweetline-block",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "tweetline-block/tweetline-block",
+	"title": "Tweetline",
+	"category": "design",
+	"icon": "twitter-alt",
+	"attributes": {
+		"username": {
+			"type": "string",
+			"default": ""
+		},
+		"count": {
+			"type": "number",
+			"default": 5
+		},
+		"exclude_replies": {
+			"type": "boolean",
+			"default": true
+		},
+		"show_title": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"textdomain": "tweetline-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

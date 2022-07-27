@@ -1,35 +1,35 @@
 import twitterLogoUrl from '../assets/twttr.svg';
 import { TweetText } from './TweetText';
 
-export const Tweet = ({ tweet }) => {
+export const Tweet = ( { tweet } ) => {
 	return (
 		<li>
 			<div className="author">
 				<img
-					src={tweet.user.profile_image_url_https}
+					src={ tweet.user.profile_image_url_https }
 					alt="avatar"
 					className="author-img"
 				/>
 				<a
-					href={`https://twitter.com/${tweet.user.screen_name}`}
+					href={ `https://twitter.com/${ tweet.user.screen_name }` }
 					rel="noopener noreferrer"
 					target="_blank"
 				>
-					{tweet.user.name} (@{tweet.user.screen_name})
+					{ tweet.user.name } (@{ tweet.user.screen_name })
 				</a>
 				<img
-					src={twitterLogoUrl}
+					src={ twitterLogoUrl }
 					height="0.9em"
 					alt=""
 					className="twttr-logo"
 				/>
 			</div>
 			<div className="tweet">
-				<TweetText tweet={tweet} />
+				<TweetText tweet={ tweet } />
 			</div>
 			<div className="links">
 				<a
-					href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
+					href={ `https://twitter.com/${ tweet.user.screen_name }/status/${ tweet.id_str }` }
 					className="view"
 					rel="noopener noreferrer"
 					target="_blank"
@@ -37,13 +37,13 @@ export const Tweet = ({ tweet }) => {
 					Vis på Twitter
 				</a>
 				<a
-					href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
+					href={ `https://twitter.com/${ tweet.user.screen_name }/status/${ tweet.id_str }` }
 					className="date"
 					rel="noopener noreferrer"
 					target="_blank"
 				>
 					<time dateTime="<?php echo $tweet->created_at ?>">
-						{tweet.created_at_formatted}
+						{ tweet.created_at_formatted }
 					</time>
 				</a>
 			</div>

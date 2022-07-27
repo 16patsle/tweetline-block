@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
@@ -18,7 +18,9 @@ const fetchFromAPI = ( path ) => apiFetch( { path } );
  * @return {WPElement} Element to render.
  */
 export default function Edit( { attributes, setAttributes } ) {
-	const blockProps = useBlockProps({ className: 'tweetline-block-tweetline-block'});
+	const blockProps = useBlockProps( {
+		className: 'tweetline-block-tweetline-block',
+	} );
 	const { data: timeline, error } = useSWR(
 		`/tweetline/v1/timeline?username=${ attributes.username }&count=${ attributes.count }&exclude_replies=${ attributes.exclude_replies }`,
 		fetchFromAPI
@@ -29,8 +31,8 @@ export default function Edit( { attributes, setAttributes } ) {
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings' ) }>
 					<TextControl
-						label="Tweet count"
-						help="Max amount of tweets to show."
+						label={ __( 'Tweet count' ) }
+						help={ __( 'Max amount of tweets to show.' ) }
 						type="number"
 						value={ attributes.count }
 						onChange={ ( count ) => {
@@ -44,16 +46,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						} }
 					/>
 					<ToggleControl
-						label="Exclude replies"
-						help="Hides replies from the feed. May result in fewer tweets being shown."
+						label={ __( 'Exclude replies' ) }
+						help={ __(
+							'Hides replies from the feed. May result in fewer tweets being shown.'
+						) }
 						checked={ attributes.exclude_replies }
 						onChange={ ( exclude_replies ) =>
 							setAttributes( { exclude_replies } )
 						}
 					/>
 					<ToggleControl
-						label="Show title"
-						help="Shows a widget style title."
+						label={ __( 'Show title' ) }
+						help={ __( 'Shows a widget style title.' ) }
 						checked={ attributes.show_title }
 						onChange={ ( show_title ) =>
 							setAttributes( { show_title } )
@@ -63,13 +67,13 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<TextControl
-				label="Twitter username"
+				label={ __( 'Twitter username' ) }
 				value={ attributes.username }
 				onChange={ ( username ) => setAttributes( { username } ) }
 			/>
 			{ attributes.username === ''
-				? 'Please enter a valid Twitter username'
-				: error && 'Error: ' + error.message }
+				? __( 'Please enter a valid Twitter username' )
+				: error && sprintf( 'Error: %s', error.message ) }
 			{ ! error && timeline && (
 				<div div { ...blockProps }>
 					{ attributes.show_title && timeline[ 0 ] && (

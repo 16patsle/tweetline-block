@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import twitterLogoUrl from '../assets/twttr.svg';
 import { TweetText } from './TweetText';
 
@@ -34,7 +35,7 @@ export const Tweet = ( { tweet } ) => {
 					rel="noopener noreferrer"
 					target="_blank"
 				>
-					Vis på Twitter
+					{ __( 'Show on Twitter' ) }
 				</a>
 				<a
 					href={ `https://twitter.com/${ tweet.user.screen_name }/status/${ tweet.id_str }` }
